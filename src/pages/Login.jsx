@@ -33,8 +33,6 @@ const Login = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-        
-
       });
 
       const result = await res.json();
@@ -46,7 +44,7 @@ const Login = () => {
         localStorage.setItem("token", result.token);
         navigate("/");
       } else {
-         toast.error(result.msg || "Login Failed", { position: "bottom-right" });
+        toast.error(result.msg || "Login Failed", { position: "bottom-right" });
       }
     } catch (error) {
       console.error("Error logging in:", error);
@@ -58,9 +56,8 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleLogin(); 
+    handleLogin();
   };
-
   return (
     <>
       <div className="flex justify-center  items-center mt-32 animate-on-scroll">
@@ -79,6 +76,7 @@ const Login = () => {
                 name="email"
                 placeholder="Enter your email"
                 value={data.email}
+                autoComplete="off"
                 onChange={handleChange}
                 className="border p-2 rounded-md w-full focus:ring-2 focus:ring-[#fdbd33] outline-none"
                 required
@@ -93,6 +91,7 @@ const Login = () => {
                   name="password"
                   placeholder="Enter your password"
                   value={data.password}
+                  autoComplete="off"
                   onChange={handleChange}
                   className="border p-2 rounded-md w-full pr-10 focus:ring-2 focus:ring-[#fdbd33] outline-none"
                   required

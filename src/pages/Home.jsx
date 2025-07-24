@@ -1,11 +1,83 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { Cloud, Plane, Headphones, Settings } from 'lucide-react';
 import useScrollAnimation from "../useScrollAnimation";
 import { Link, Links } from "react-router-dom";
-
+import { Mail, Send } from 'lucide-react';
+import toast from "react-hot-toast";
+const services = [
+  {
+    id: 1,
+    icon: Cloud,
+    title: "Calculated Weather",
+    description: "Built Wicket longer admire do barton vanity itself do in it.",
+    featured: false
+  },
+  {
+    id: 2,
+    icon: Plane,
+    title: "Best Flight",
+    description: "Built Wicket longer admire do barton vanity itself do in it.",
+    featured: true
+  },
+  {
+    id: 3,
+    icon: Headphones,
+    title: "Engrossed Listening",
+    description: "Engrossed listening. Park gate sell they west hard for the.",
+    featured: false
+  },
+  {
+    id: 4,
+    icon: Settings,
+    title: "Calculated Weather",
+    description: "Built Wicket longer admire do barton vanity itself do in it.",
+    featured: false
+  }
+];
 
 
 const Home = () => {
+
+  const [email, setEmail] = useState('');
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [data, setData] = useState({
+    email: ""
+  })
+
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!data.email) return;
+
+    try {
+      const res = await fetch("http://localhost:3001/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      },);
+
+      const result = await res.json();
+      console.log("API Response:", result);
+
+      if (res.ok) {
+        setIsSubscribed(true);
+        toast.success("🎉 Subscribed successfully!", { position: "bottom-right" });
+        setData({ email: "" });
+
+
+        setTimeout(() => {
+          setIsSubscribed(false);
+        }, 3000);
+      } else {
+        toast.error(result.msg || "Subscription Failed", { position: "bottom-right" });
+      }
+    } catch (error) {
+      console.error("Subscription error:", error);
+      toast.error("Something went wrong!", { position: "bottom-right" });
+    }
+  };
   useScrollAnimation()
   return (
 
@@ -65,6 +137,7 @@ const Home = () => {
         {/* --------------------------------------CATEGORY-------------------------------------------- */}
 
 
+
         <div className="md:flex justify-center items-center animate-on-scroll gap-12 md:gap-48 mt-32">
           <div className="text-center md:text-left md:ml-72">
             <p className="text-[#5E6282] flex text-center justify-center font-medium">CATEGORY</p>
@@ -72,61 +145,84 @@ const Home = () => {
               WE OFFER BEST SERVICES
             </h2>
           </div>
-
-          <div className="mt-8">
+          <div className="mt-8 animate-on-scroll">
             <img src="\Image\calender.png" alt="Calendar Icon" className="mx-auto md:mx-0" />
           </div>
+
         </div>
 
+        <section className="py-16 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+              {services.map((service) => {
+                const Icon = service.icon;
+                return (
+                  <div
+                    key={service.id}
+                    className={`relative group ${service.featured
+                      ? 'transform lg:-translate-y-8'
+                      : ''
+                      }`}
+                  >
+                    <div
+                      className={`
+                    h-64 sm:h-72 lg:h-80 w-full
+                    flex flex-col items-center justify-center text-center
+                    p-6 sm:p-8
+                    transition-all duration-300 ease-in-out
+                    hover:transform hover:-translate-y-2
+                    ${service.featured
+                          ? 'bg-white rounded-3xl shadow-2xl border border-gray-100'
+                          : 'bg-transparent hover:bg-white hover:rounded-3xl hover:shadow-xl'
+                        }
+                  `}
+                    >
 
-        <div className="md:flex justify-center  text-center mt-28 gap-16 h-auto md:h-96 md:ml-6 animate-on-scroll">
-          <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-28">
+                      <div className={`
+                    w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24
+                    rounded-2xl flex items-center justify-center mb-6 sm:mb-8
+                    transition-all duration-300
+                    ${service.featured
+                          ? 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg'
+                          : 'bg-gradient-to-br from-gray-100 to-gray-200 group-hover:from-blue-500 group-hover:to-purple-600 group-hover:shadow-lg'
+                        }
+                  `}>
+                        <Icon className={`
+                      w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12
+                      transition-colors duration-300
+                      ${service.featured
+                            ? 'text-white'
+                            : 'text-gray-600 group-hover:text-white'
+                          }
+                    `} />
+                      </div>
 
 
-            <div className="h-52 w-48 flex flex-col items-center justify-center text-center">
-              <img className="h-16" src="\Image\Chatari.png" alt="Chatari" />
-              <p className="text-[#1E1D4C] font-medium text-lg md:text-xl mt-8">Calculated Weather</p>
-              <p className="font-medium text-[#5E6282] text-sm md:text-base mt-1">
-                Built Wicket longer <br /> admire do barton <br /> vanity itself do in it.
-              </p>
+                      <h3 className="text-[#1E1D4C] font-semibold text-lg sm:text-xl lg:text-2xl mb-3 sm:mb-4">
+                        {service.title}
+                      </h3>
+                      <p className="font-medium text-[#5E6282] text-sm sm:text-base lg:text-lg leading-relaxed">
+                        {service.description}
+                      </p>
+                    </div>
+
+                    {service.featured && (
+                      <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl opacity-20 -z-10"></div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
-            <div className="relative">
 
-              <div className="relative z-50 h-64 w-56 bg-white mb-10 flex flex-col items-center justify-center text-center rounded-[35px] shadow-xl">
-                <img className="h-24" src="\Image\plan 2.png" alt="Plan" />
-                <p className="text-[#1E1D4C] font-medium text-lg md:text-xl mt-4">Best Flight</p>
-                <p className="font-medium text-[#5E6282] text-sm md:text-base mt-1">
-                  Built Wicket longer <br /> admire do barton <br /> vanity itself do in it.
-                </p>
-
-                <img
-                  className="absolute -z-10 top-[80%] right-[83%] bg-white"
-                  src="\Image\Rectangle 157.png"
-                  alt="Rectangle"
-                />
-              </div>
+            <div className="relative mt-16">
+              <div className="absolute top-0 left-1/4 w-2 h-2 bg-orange-400 rounded-full opacity-60"></div>
+              <div className="absolute top-8 right-1/3 w-3 h-3 bg-blue-400 rounded-full opacity-40"></div>
+              <div className="absolute -top-4 right-1/4 w-1 h-1 bg-purple-400 rounded-full opacity-80"></div>
             </div>
           </div>
+        </section>
 
-
-          <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-28 mt-10 md:mt-0">
-            <div className="h-52 w-48 flex flex-col items-center justify-center text-center">
-              <img className="h-16" src="\Image\Mick.png" alt="Mick" />
-              <p className="text-[#1E1D4C] font-medium text-lg md:text-xl mt-8">Engrossed Listening</p>
-              <p className="font-medium text-[#5E6282] text-sm md:text-base mt-1">
-                Engrossed listening. <br /> Park gate sell they <br /> west hard for the.
-              </p>
-            </div>
-            <div className="h-52 w-48 flex flex-col items-center justify-center text-center">
-              <img className="h-16" src="\Image\Setting.png" alt="Setting" />
-              <p className="text-[#1E1D4C] font-medium text-lg md:text-xl mt-8">Calculated Weather</p>
-              <p className="font-medium text-[#5E6282] text-sm md:text-base mt-1">
-                Built Wicket longer <br /> admire do barton <br /> vanity itself do in it.
-              </p>
-            </div>
-          </div>
-        </div>
 
 
         {/* -----------------------------------------||---------------------------------------------------- */}
@@ -222,7 +318,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="md:flex justify-center gap-52 mt-16 px-4 sm:px-8 md:px-16">
+          <div className="md:flex justify-center gap-28 mt-16 px-4 sm:px-8 md:px-16">
             <div>
               <p className="text-[#5E6282] font-medium mb-4">EASY AND FAST</p>
               <h2 className="text-[#14183E] font-volkhov  md:text-6xl font-bold">
@@ -318,6 +414,12 @@ const Home = () => {
               </Link>
             </div>
           </div>
+
+          <div className="relative mt-8">
+            <div className="absolute top-0 left-1/4 w-3 h-3 bg-yellow-400 rounded-full opacity-60 animate-pulse"></div>
+            <div className="absolute top-4 right-1/3 w-2 h-2 bg-blue-400 rounded-full opacity-40 animate-pulse delay-1000"></div>
+            <div className="absolute -top-2 right-1/4 w-1 h-1 bg-purple-400 rounded-full opacity-80 animate-pulse delay-500"></div>
+          </div>
         </div>
 
         {/* ------------------------------------------------- AboutUS--------------------------------------------------- */}
@@ -360,10 +462,16 @@ const Home = () => {
             </div>
 
           </div>
+
+        </div>
+        <div className="relative mt-8">
+          <div className="absolute -top-2 right-1/5 w-1 h-1 bg-purple-400 rounded-full opacity-80 animate-pulse delay-500"></div>
+          <div className="absolute top-0 left-1/4 w-3 h-3 bg-yellow-400 rounded-full opacity-60 animate-pulse"></div>
+          <div className="absolute top-4 right-1/3 w-2 h-2 bg-blue-400 rounded-full opacity-40 animate-pulse delay-1000"></div>
         </div>
 
 
-        <div className=" ml-5 p-32 flex flex-wrap  items-center gap-24 animate-on-scroll  ">
+        <div className=" ml-4 p-28   flex flex-wrap  items-center gap-20 animate-on-scroll  ">
           <img className=" transform transition-transform duration-500 hover:scale-105 hover:brightness-90" src="\Image\image 27.png" alt="" />
           <img className=" transform transition-transform duration-500 hover:scale-105 hover:brightness-90" src="\Image\image 28.png" alt="" />
           <img className=" transform transition-transform duration-500 hover:scale-105 hover:brightness-90" src="\Image\image 29.png" alt="" />
@@ -373,47 +481,102 @@ const Home = () => {
 
         {/* --------------------------------------------------------------------------------------bg-[#eeedf3]--------- */}
 
-        <div className="mx-auto flex flex-col md:flex-row justify-center items-center h-auto md:min-h-[400px] w-[98%] md:w-[85%] rounded-tl-3xl shadow-lg animate-on-scroll">
+        <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+          <div className="max-w-7xl mx-auto">
+            <div className="bg-white rounded-2xl lg:rounded-3xl shadow-xl overflow-hidden">
+              <div className="flex flex-col lg:flex-row">
+                <div className="w-full lg:w-1/2 h-64 sm:h-80 lg:h-[450px] relative overflow-hidden">
+                  <img
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                    src="https://img.freepik.com/premium-vector/travel-concept-with-suitcase-sunglasses-hat-camera-blue-background-flying-plane-back_255343-81.jpg?semt=ais_hybrid"
+                    alt="Travel concept with suitcase, sunglasses, hat, camera and flying plane"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-transparent lg:hidden"></div>
+                </div>
 
+                <div className="w-full lg:w-1/2 p-6 sm:p-8 lg:p-12 xl:p-16 flex flex-col justify-center">
+                  <div className="max-w-md mx-auto lg:mx-0">
+                    <div className="text-center lg:text-left mb-8 lg:mb-12">
+                      <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight mb-4 lg:mb-6">
+                        Get special offers, and
+                        <span className="block text-blue-600">more from Traveler</span>
+                      </h2>
+                      <p className="text-[#5E6282] text-base sm:text-lg lg:text-xl leading-relaxed">
+                        Subscribe to see secret deals and prices drop the moment you sign up!
+                      </p>
+                    </div>
 
-          <div className="flex justify-center w-full md:w-1/2 h-64 md:h-[450px] rounded-tl-3xl overflow-hidden">
-            <img
-              className="w-full h-full object-cover rounded-lg"
-              src="https://img.freepik.com/premium-vector/travel-concept-with-suitcase-sunglasses-hat-camera-blue-background-flying-plane-back_255343-81.jpg?semt=ais_hybrid"
-              alt="Travel concept"
-            />
-          </div>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <Mail className="h-5 w-5 text-gray-400" />
+                        </div>
+                        <input
+                          type="email"
+                          name="email"
+                          value={data.email}
+                          onChange={handleChange}
+                          className="w-full h-12 sm:h-14 pl-12 pr-32 sm:pr-36 rounded-full border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200 text-gray-900 placeholder-gray-500"
+                          placeholder="Enter your email address"
+                          required
+                          disabled={isSubscribed}
+                        />
+                        <button
+                          type="submit"
+                          disabled={isSubscribed}
+                          className="absolute top-1/2 right-2 -translate-y-1/2 h-8 sm:h-10 px-4 sm:px-6 bg-gradient-to-r from-[#fdbd33] to-[#f39c12] text-white font-semibold rounded-full hover:from-[#e6a800] hover:to-[#d68910] hover:shadow-lg transform hover:scale-105 transition-all duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
+                        >
+                          {isSubscribed ? (
+                            <>
+                              <span className="text-sm">✓</span>
+                              <span className="hidden sm:inline text-sm">Done</span>
+                            </>
+                          ) : (
+                            <>
+                              <Send className="w-4 h-4" />
+                              <span className="hidden sm:inline text-sm">Subscribe</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
 
-          <div className="text-center md:text-left w-full md:w-1/2 mt-6 md:mt-0 px-4 sm:px-6 md:px-12">
+                      {isSubscribed && (
+                        <div className="text-center lg:text-left">
+                          <p className="text-green-600 text-sm font-medium animate-fade-in">
+                            🎉 Successfully subscribed! Check your email for exclusive deals.
+                          </p>
+                        </div>
+                      )}
+                    </form>
 
-            <div className="px-2 sm:px-6 md:ml-11">
-              <p className="text-lg sm:text-xl md:text-4xl font-poppins font-semibold leading-tight">
-                Get special offers, and <br />
-                <span className="md:ml-7">more from Traveler</span>
-              </p>
-              <p className="text-[#5E6282] text-sm sm:text-base md:text-lg leading-tight mt-3 sm:mt-5 md:ml-10">
-                Subscribe to see secret deals and prices <br />
-                <span className="sm:ml-4 md:ml-9">drop the moment you sign up!</span>
-              </p>
+                    <div className="mt-6 lg:mt-8 text-center lg:text-left">
+                      <div className="flex flex-wrap justify-center lg:justify-start items-center gap-4 text-sm text-gray-500">
+                        <div className="flex items-center gap-1">
+                          <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                          <span>No spam, ever</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                          <span>Unsubscribe anytime</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                          <span>10k+ subscribers</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-
-            <div className="flex justify-center ml-16 md:justify-start relative w-full sm:w-[350px] md:w-[420px] mt-6 sm:mt-10 md:mt-16 px-2 sm:px-6">
-              <input
-                className="w-full h-12 sm:h-14 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#fdbd33] shadow-sm transition-all duration-200"
-                type="email"
-                placeholder="Your Email"
-                aria-label="Enter your email"
-              />
-              <button
-                className="absolute top-1/2 right-4 sm:right-6 md:right-8 -translate-y-1/2 w-24 sm:w-28 h-9 sm:h-10 bg-[#fdbd33] text-white font-medium rounded-full cursor-pointer text-center hover:bg-[#e6a800] hover:shadow-md transition-all duration-200 ease-in-out"
-              >
-                Subscribe
-              </button>
+            <div className="relative mt-8">
+              <div className="absolute top-0 left-1/4 w-3 h-3 bg-yellow-400 rounded-full opacity-60 animate-pulse"></div>
+              <div className="absolute top-4 right-1/3 w-2 h-2 bg-blue-400 rounded-full opacity-40 animate-pulse delay-1000"></div>
+              <div className="absolute -top-2 right-1/4 w-1 h-1 bg-purple-400 rounded-full opacity-80 animate-pulse delay-500"></div>
             </div>
-
           </div>
-        </div>
+        </section>
 
         {/* -------------------------------------------------------------------------------------------------- */}
       </div>

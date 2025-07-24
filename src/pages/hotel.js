@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import HotelList from "./HotelList";
-import HotelDetails from "./HotelDetails"; // Ensure this component exists
+import HotelDetails from "./HotelDetails"; 
 
 const Hotels = () => {
   const [selectedHotel, setSelectedHotel] = useState(null);
