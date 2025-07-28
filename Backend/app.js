@@ -196,25 +196,6 @@ app.get("/getData", async (req, res) => {
   }
 });
 
-// app.delete("/delete", async (req, res) => {
-//   try {
-//     const { userId } = req.body;
-//     if (!userId) {
-//       return res.status(400).json({ msg: "Username is required" });
-//     }
-//     const DeleteData = await RegsiterModal.findOneAndDelete({ userId });
-//     if (!DeleteData) {
-//       return res.status(404).json({ msg: "User Not Found" });
-//     }
-//     console.log("Deleted User:", DeleteData);
-//     res
-//       .status(200)
-//       .json({ msg: "User Deleted Successfully", user: DeleteData });
-//   } catch (error) {
-//     console.error("Delete Error:", error);
-//     res.status(500).json({ msg: "Internal Server Error" });
-//   }
-// });
 
 
 
