@@ -15,15 +15,14 @@ const Admin = () => {
 
         try {
 
-            const res = await fetch(`http://localhost:3001/delete/${userId}`, {
-                method: "DELETE"
-            })
+            const res = await fetch(`http://localhost:3001/delete/${userId}`, { method: "DELETE" });
+
             const result = await res.json()
             console.log("user Deleted", result)
 
             if (res.ok) {
                 toast.success("User removed successfully", { position: "bottom-right" });
-                fetchData()
+                fetchData();
                 setShowPopup(false);
             }
             else {
@@ -57,8 +56,8 @@ const Admin = () => {
                 <table className="min-w-96 border  border-gray-300 rounded-lg shadow-md bg-white text-sm md:text-base">
                     <thead className="bg-gradient-to-r from-yellow-200 to-yellow-100 text-gray-800 sticky top-0">
                         <tr>
-                          
-                          
+
+
                             <th className="py-3 px-4 border-b text-left">No.</th>
                             <th className="py-3 px-4 border-b text-left">Name</th>
                             <th className="py-3 px-4 border-b text-left">Email</th>
@@ -118,7 +117,7 @@ const Admin = () => {
                             </button>
                             <button
                                 onClick={() => {
-                                    handleRemove(selectedUser);
+                                    handleRemove(selectedUser._id);
                                     setShowPopup(false);
                                 }}
                                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
