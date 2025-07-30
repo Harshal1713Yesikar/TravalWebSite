@@ -20,26 +20,33 @@ const HotelList = ({ onSelectHotel }) => {
   return (
 
     <>
-      <div className=" relative container mx-auto mt-8 ">
-        <h2 className="text-[#14183E] mt-28 font-inika text-3xl md:text-5xl font-bold justify-center flex ">Available Hotels</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-36">
-          {hotels.map((hotel) => (
-            <div
-              key={hotel.id}
-              className="shadow-lg rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform"
-              onClick={() => onSelectHotel(hotel)}
-            >
-              <img src={hotel.image} alt={hotel.name} className="w-full h-80 object-cover animate-on-scroll" />
-              <div className="p-4 text-center">
-                <h3 className="text-xl font-bold">{hotel.name}</h3>
-                <p className="text-gray-600">{hotel.location}</p>
-                <p className="text-blue-600 font-semibold">{hotel.price}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+    <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <h2 className="text-[#14183E] text-3xl md:text-5xl font-bold font-inika text-center mb-10">
+    Available Hotels
+  </h2>
 
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {hotels.map((hotel) => (
+      <div
+        key={hotel.id}
+        className="shadow-lg rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
+        onClick={() => onSelectHotel(hotel)}
+      >
+        <img
+          src={hotel.image}
+          alt={hotel.name}
+          className="w-full h-64 sm:h-72 md:h-80 object-cover animate-on-scroll"
+        />
+        <div className="p-4 text-center">
+          <h3 className="text-xl font-bold">{hotel.name}</h3>
+          <p className="text-gray-600">{hotel.location}</p>
+          <p className="text-blue-600 font-semibold">{hotel.price}</p>
+        </div>
       </div>
+    ))}
+  </div>
+</div>
+
 
       <div className="bg-gray-100 py-16  px-6 mt-16 sm:px-12 lg:px-16">
         <div className="flex flex-col md:flex-row justify-center gap-12 md:gap-24 mt-12 animate-on-scroll">

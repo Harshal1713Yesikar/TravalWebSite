@@ -118,12 +118,12 @@ const Home = () => {
               alt="Traveller"
             />
             <img
-              className="absolute top-[15%] left-[32%] transform -translate-x-1/2 -translate-y-1/2 animate-slideIn"
+              className="absolute top-[15%] left-[32%] transform -translate-x-1/2 -translate-y-1/2 animate-slideIn w-20"
               src="/Image/Plan.png"
               alt="Plan"
             />
             <img
-              className="absolute top-[22%] left-[86%] transform -translate-x-1/2 -translate-y-1/2 animate-slideIn"
+              className="absolute top-[22%] left-[86%] transform -translate-x-1/2 -translate-y-1/2 animate-slideIn w-20 "
               src="/Image/Plan.png"
               alt="Plan"
             />
@@ -234,10 +234,11 @@ const Home = () => {
 
           <div className="animate-on-scroll text-center">
             <div className=" text-[#5E6282] font-medium ">TOP SELLING</div>
-            <div div className=" text-[#14183E] mt-4 font-inika text-5xl font-bold">TOP DESTINATION</div>
+            <div div className=" text-[#14183E] mt-5 font-inika text-3xl md:text-5xl md:gap-5 font-bold">TOP DESTINATION</div>
           </div>
 
-          <div className="grid sm:grid-cols-2 justify-items-center lg:grid-cols-3 pt-16 animate-on-scroll">
+        <div className="grid sm:grid-cols-2 justify-items-center lg:grid-cols-3 pt-16 gap-y-10 md:gap-10 animate-on-scroll">
+
             <div className=" max-w-sm  transform transition-transform duration-500 hover:scale-105 hover:brightness-90 ">
               <div className="h-86 w-60 mb-30 rounded-xl shadow-xl text-[#FFE6E3]">
                 <img
@@ -309,118 +310,111 @@ const Home = () => {
 
         {/* --------------------------------------------Booking-------------------------------------------------- */}
 
-        <div className="animate-on-scroll">
+       <div className="animate-on-scroll">
+  <div className="text-center mt-24">
+    <p className="text-[#5E6282] font-medium">Booking</p>
+    <h2 className="text-[#14183E] font-inika text-4xl sm:text-5xl font-bold mt-2">Booking Wave</h2>
+  </div>
 
+  <div className="mt-16 flex flex-col md:flex-row items-center justify-center gap-16 px-6 md:px-16">
+    <div className="max-w-lg">
+      <p className="text-[#5E6282] font-medium mb-4">EASY AND FAST</p>
+      <h2 className="text-[#14183E] font-volkhov text-3xl md:text-5xl font-bold leading-tight">
+        Book your next trip <br />
+        in 3 easy steps
+      </h2>
+
+      {[
+        {
+          icon: "/Image/Group 7.png",
+          title: "Choose Destination",
+          text: "Find the perfect place that aligns with your interests and travel goals."
+        },
+        {
+          icon: "/Image/Group 12.png",
+          title: "Make Payment",
+          text: "Complete your booking securely and effortlessly online."
+        },
+        {
+          icon: "/Image/Group 11.png",
+          title: "Reach Airport on Selected Date",
+          text: "Arrive at the airport on your chosen date for a smooth check-in and journey."
+        }
+      ].map((step, index) => (
+        <div key={index} className="flex items-start mt-10 gap-4">
+          <img src={step.icon} alt={`${step.title} icon`} className="w-10 h-10" />
           <div>
-            <p className="flex justify-center text-[#5E6282] font-medium mt-24">Booking</p>
-            <p className="flex justify-center text-[#14183E] mt-2 font-inika text-5xl font-bold">
-              Booking Wave
-            </p>
-          </div>
-
-          <div className="md:flex justify-center gap-28 mt-16 px-4 sm:px-8 md:px-16">
-            <div>
-              <p className="text-[#5E6282] font-medium mb-4">EASY AND FAST</p>
-              <h2 className="text-[#14183E] font-volkhov  md:text-6xl font-bold">
-                Book your next trip <br />
-                in 3 easy steps
-              </h2>
-
-              <div className="flex items-center mt-12">
-                <img src="/Image/Group 7.png" alt="Choose Destination Icon" />
-                <div className="ml-5">
-                  <p className="text-[#5E6282] font-bold">Choose Destination</p>
-                  <p className="text-[#5E6282] font-poppins">
-                    Find the perfect place that aligns with your interests and travel goals.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center mt-12">
-                <img src="/Image/Group 12.png" alt="Make Payment Icon" />
-                <div className="ml-5">
-                  <p className="text-[#5E6282] font-bold">Make Payment</p>
-                  <p className="text-[#5E6282] font-poppins">
-                    Complete your booking securely and effortlessly online.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center mt-12">
-                <img src="/Image/Group 11.png" alt="Reach Airport Icon" />
-                <div className="ml-5">
-                  <p className="text-[#5E6282] font-bold">Reach Airport on Selected Date</p>
-                  <p className="text-[#5E6282] font-poppins">
-                    Arrive at the airport on your chosen date for a smooth check-in and journey.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="absolute -z-10 right-0">
-                <img src="/Image/Ellipse 8.png" alt="Ellipse Background" />
-              </div>
-
-              <div className="relative z-10 mt-12 md:mt-0 h-auto w-72 p-6 flex flex-col rounded-[25px] shadow-lg bg-white">
-                <img src="/Image/Bookingimg.jpg" alt="Trip to Greece" className="w-60 mx-auto" />
-                <p className="text-[#080809] mt-6 font-bold">Trip to Greece</p>
-                <p className="text-[#5E6282] font-poppins mt-3">14-29 June | by Robbin Joseph</p>
-
-                <div className="mt-3 flex gap-2">
-                  <img
-                    className="hover:translate-y-[-7px] transition-transform duration-300 cursor-pointer"
-                    src="/Image/LEAF.png"
-                    alt="Leaf Icon"
-                  />
-                  <img
-                    className="hover:translate-y-[-7px] transition-transform duration-300 cursor-pointer"
-                    src="/Image/map icon.png"
-                    alt="Map Icon"
-                  />
-                  <img
-                    className="hover:translate-y-[-7px] transition-transform duration-300 cursor-pointer"
-                    src="/Image/send.png"
-                    alt="Send Icon"
-                  />
-                </div>
-
-                <div className="flex items-center gap-3 mt-12">
-                  <img src="/Image/building 1.png" alt="Building Icon" />
-                  <p className="text-[#5E6282] font-medium">24 people going</p>
-                  <img
-                    className="ml-auto hover:translate-y-[-7px] transition-transform cursor-pointer"
-                    src="/Image/dil img.png"
-                    alt="Like Icon"
-                  />
-                </div>
-              </div>
-
-              <div className="absolute top-[16rem] right-[-8rem] z-50 p-4 flex items-center gap-4 rounded-[25px] shadow-md bg-white w-64">
-                <img src="/Image/Mini img.png" alt="Mini Trip Image" className="w-12 h-12" />
-                <div>
-                  <p className="text-[#5E6282] font-poppins">Ongoing</p>
-                  <p className="font-bold mt-1">Trip to Rome</p>
-                  <p className="mt-2">
-                    <span className="text-[#8A79DF]">40%</span> Completed
-                  </p>
-                  <img className="mt-2" src="/Image/Group 3.png" alt="Progress Bar" />
-                </div>
-
-              </div>
-              <Link to="booking">
-
-                <img src="https://cdn-icons-png.flaticon.com/128/2268/2268536.png" alt="" className=" w-12 mt-12 " />
-              </Link>
-            </div>
-          </div>
-
-          <div className="relative mt-8">
-            <div className="absolute top-0 left-1/4 w-3 h-3 bg-yellow-400 rounded-full opacity-60 animate-pulse"></div>
-            <div className="absolute top-4 right-1/3 w-2 h-2 bg-blue-400 rounded-full opacity-40 animate-pulse delay-1000"></div>
-            <div className="absolute -top-2 right-1/4 w-1 h-1 bg-purple-400 rounded-full opacity-80 animate-pulse delay-500"></div>
+            <p className="text-[#5E6282] font-bold">{step.title}</p>
+            <p className="text-[#5E6282] font-poppins text-sm">{step.text}</p>
           </div>
         </div>
+      ))}
+    </div>
+
+    <div className="relative mt-12 md:mt-0 w-full max-w-sm">
+      <div className="absolute -z-10 top-0 right-0">
+        <img src="/Image/Ellipse 8.png" alt="Decorative Ellipse" />
+      </div>
+
+      <div className="relative z-10 bg-white shadow-lg rounded-[25px] p-6">
+        <img src="/Image/Bookingimg.jpg" alt="Trip to Greece image" className="rounded-lg mx-auto" />
+        <p className="text-[#080809] mt-6 font-bold">Trip to Greece</p>
+        <p className="text-[#5E6282] text-sm font-poppins mt-2">14-29 June | by Robbin Joseph</p>
+
+        <div className="flex gap-3 mt-3">
+          {["LEAF.png", "map icon.png", "send.png"].map((icon, i) => (
+            <img
+              key={i}
+              src={`/Image/${icon}`}
+              alt={icon.split(".")[0]}
+              className="w-6 h-6 hover:-translate-y-1 transition-transform"
+            />
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2 mt-6">
+          <img src="/Image/building 1.png" alt="Travelers icon" />
+          <p className="text-[#5E6282] text-sm">24 people going</p>
+          <img
+            src="/Image/dil img.png"
+            alt="Like icon"
+            className="ml-auto w-6 h-6 hover:-translate-y-1 transition-transform"
+          />
+        </div>
+      </div>
+
+      {/* Mini Card */}
+      <div className="absolute top-[18rem] right-[-4rem] z-50 bg-white p-4 rounded-[25px] shadow-md w-64">
+        <div className="flex items-center gap-4">
+          <img src="/Image/Mini img.png" alt="Mini trip thumbnail" className="w-12 h-12" />
+          <div>
+            <p className="text-[#5E6282] text-xs">Ongoing</p>
+            <p className="font-bold">Trip to Rome</p>
+            <p className="text-sm mt-1">
+              <span className="text-[#8A79DF]">40%</span> Completed
+            </p>
+            <img src="/Image/Group 3.png" alt="Progress bar" className="mt-2" />
+          </div>
+        </div>
+      </div>
+
+      <Link to="/booking">
+        <img
+          src="https://cdn-icons-png.flaticon.com/128/2268/2268536.png"
+          alt="Booking Icon"
+          className="w-12 mt-10 mx-auto hover:scale-110 transition-transform"
+        />
+      </Link>
+    </div>
+  </div>
+
+    <div className="relative mt-8">
+    <div className="absolute top-0 left-1/4 w-3 h-3 bg-yellow-400 rounded-full opacity-60 animate-pulse"></div>
+    <div className="absolute top-4 right-1/3 w-2 h-2 bg-blue-400 rounded-full opacity-40 animate-pulse delay-1000"></div>
+    <div className="absolute -top-2 right-1/4 w-1 h-1 bg-purple-400 rounded-full opacity-80 animate-pulse delay-500"></div>
+  </div>
+</div>
+
 
         {/* ------------------------------------------------- AboutUS--------------------------------------------------- */}
 
@@ -516,7 +510,7 @@ const Home = () => {
                           name="email"
                           value={data.email}
                           onChange={handleChange}
-                          className="w-full h-12 sm:h-14 pl-12 pr-32 sm:pr-36 rounded-full border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200 text-gray-900 placeholder-gray-500"
+                          className="w-full h-12 sm:h-14 pl-12 pr-16 sm:pr-36 rounded-full border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200 text-gray-900 placeholder-gray-500"
                           placeholder="Enter your email address"
                           required
                           disabled={isSubscribed}

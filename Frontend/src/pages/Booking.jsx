@@ -45,64 +45,64 @@ const Booking = () => {
 
   return (
     <>
-      <div className=" container mx-auto px-4 mt-16 max-w-2xl animate-on-scroll">
+    <div className="container mx-auto px-4 mt-16 max-w-7xl animate-on-scroll">
+  <div className="flex flex-col md:flex-row items-center gap-10">
+    <div className="w-full md:w-1/2 flex justify-center">
+      <img
+        src="https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=600"
+        alt="Airplane"
+        className="w-full max-w-md rounded-lg shadow-lg"
+      />
+    </div>
 
-        <div className="flex justify-center">
-          <div className="flex justify-center md:w-1/2">
-            <img
-              src="https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=600"
-              alt="Airplane"
-              className="w-full max-w-lg rounded-lg shadow-lg"
-            />
-          </div>
+    <form
+      onSubmit={handleBooking}
+      className="w-full md:w-1/2 bg-white shadow-lg rounded-lg p-6"
+    >
+      <h2 className="text-[#14183E] text-3xl md:text-4xl font-bold text-center font-inika">
+        Book Your Trip
+      </h2>
 
-
-          <form onSubmit={handleBooking} className="bg-white shadow-lg rounded-lg p-6 w-full md:w-1/2">
-            <h2 className="text-[#14183E] text-3xl md:text-4xl font-bold text-center font-inika">
-              Book Your Trip
-            </h2>
-
-            <div className="mt-6 space-y-4">
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter Destination"
-                value={data.name}
-                onChange={handleChange}
-                className="w-full border rounded-md p-2 focus:ring-2 focus:ring-[#fdbd33] outline-none"
-                required
-              />
-              <input
-                type="date"
-                name="date"
-                value={data.date}
-                onChange={handleChange}
-                className="w-full border rounded-md p-2 focus:ring-2 focus:ring-[#fdbd33] outline-none"
-                required
-              />
-              <input
-                type="number"
-                min="1"
-                name="number"
-                value={data.number}
-                placeholder="Enter the Number"
-                onChange={handleChange}
-                className="w-full border rounded-md p-2 focus:ring-2 focus:ring-[#fdbd33] outline-none"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="mt-4 px-6 py-3 bg-[#fdbd33] text-white rounded-lg hover:bg-[#fcb000] transition duration-300 w-full"
-            >
-              Book Now
-            </button>
-          </form>
-
-        </div>
-
+      <div className="mt-6 space-y-4">
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter Destination"
+          value={data.name}
+          onChange={handleChange}
+          className="w-full border rounded-md p-2 focus:ring-2 focus:ring-[#fdbd33] outline-none"
+          required
+        />
+        <input
+          type="date"
+          name="date"
+          value={data.date}
+          onChange={handleChange}
+          className="w-full border rounded-md p-2 focus:ring-2 focus:ring-[#fdbd33] outline-none"
+          required
+        />
+        <input
+          type="number"
+          min="1"
+          name="number"
+          value={data.number}
+          placeholder="Enter the Number"
+          onChange={handleChange}
+          className="w-full border rounded-md p-2 focus:ring-2 focus:ring-[#fdbd33] outline-none"
+          required
+        />
       </div>
+
+      <button
+        type="submit"
+        className="mt-4 px-6 py-3 bg-[#fdbd33] text-white rounded-lg hover:bg-[#fcb000] transition duration-300 w-full"
+      >
+        Book Now
+      </button>
+    </form>
+  </div>
+</div>
+
       <div className="bg-gray-100 py-16  px-6 mt-16 sm:px-12 lg:px-16">
         <div className="flex flex-col md:flex-row justify-center gap-12 md:gap-24 mt-12 animate-on-scroll">
           <div className="text-center md:text-left">
