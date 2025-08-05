@@ -123,7 +123,7 @@ const Home = () => {
               alt="Plan"
             />
             <img
-              className="absolute top-[22%] left-[86%] transform -translate-x-1/2 -translate-y-1/2 animate-slideIn w-20 "
+              className="absolute top-[22%] left-[88%] transform -translate-x-1/2 -translate-y-1/2 animate-slideIn w-20 "
               src="/Image/Plan.png"
               alt="Plan"
             />
@@ -383,7 +383,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Mini Card */}
       <div className="absolute top-[18rem] right-[-4rem] z-50 bg-white p-4 rounded-[25px] shadow-md w-64">
         <div className="flex items-center gap-4">
           <img src="/Image/Mini img.png" alt="Mini trip thumbnail" className="w-12 h-12" />

@@ -148,7 +148,6 @@ const Booking = () => {
                 <Link to="/login">
                   Login
                 </Link>
-
               </p>
               <p className="text-slate-600 font-bold font-poppins cursor-pointer hover:text-orange-500 transition-colors">
                 <Link to="/contactUs">

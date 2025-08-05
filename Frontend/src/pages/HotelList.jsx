@@ -13,9 +13,6 @@ const hotels = [
 const HotelList = ({ onSelectHotel }) => {
   useScrollAnimation()
 
-  // if (!onSelectHotel) {
-  //   console.error("❌ ERROR: onSelectHotel function is not provided!");
-  // }
 
   return (
 
