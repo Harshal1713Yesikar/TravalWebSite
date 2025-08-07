@@ -3,6 +3,8 @@ import { UserContatUs } from "../Store/Api";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import useScrollAnimation from "../useScrollAnimation";
+import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 const Contact = () => {
   useScrollAnimation()
@@ -11,7 +13,6 @@ const Contact = () => {
     email: "",
     message: "",
   });
-
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -19,29 +20,22 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3001/contactUs", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+      const response = await axiosInstance.post('/contactUs', data);
+      console.log("API Response:", response.data);
+
+      setData({ name: "", email: "", message: "" });
+      toast.success("📨 Message Sent Successfully", {
+        position: 'bottom-right',
       });
-      const result = await response.json();
-      console.log("API Response:", result);
-      if (response.ok) {
-        setData({ name: "", email: "", message: "" });
-        toast.success("Message Sent Successfully", {
-          position: 'bottom-right'
-        });
-      } else {
-        throw new Error(result.message || "Something went wrong!");
-      }
     } catch (error) {
       console.error("API Call Failed:", error);
+      const errorMessage =
+        error.response?.data?.message || error.message || "Something went wrong!";
+      toast.error(errorMessage, {
+        position: 'bottom-right',
+      });
     }
   };
-
-
   return (
 
     <>
@@ -227,7 +221,6 @@ const Contact = () => {
             </div>
           </div>
         </div>
-
         <div className="mt-16 flex justify-center border-t pt-6">
           <p className="text-slate-600 font-serif font-bold">
             All rights reserved @jadoo.com
@@ -240,5 +233,4 @@ const Contact = () => {
 
   );
 };
-
 export default Contact;

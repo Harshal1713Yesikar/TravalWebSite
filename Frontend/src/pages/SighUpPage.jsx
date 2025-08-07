@@ -2,9 +2,12 @@ import React, { useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import useScrollAnimation from "../useScrollAnimation";
+import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 const debounce = (func, wait) => {
   let timeout;
+
   return (...args) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), wait);
@@ -37,29 +40,36 @@ const SignupPage = () => {
     console.log("Form submitted with:", data);
 
     try {
-      const response = await fetch("http://localhost:3001/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      const response = await axiosInstance.post('/register', data);
+
+
+      console.log("API Response:", response.data);
+
+
+      setData({ name: "", username: "", email: "", password: "" });
+
+      toast.success("User registered successfully! ✅", {
+        position: "bottom-right",
       });
 
-      const result = await response.json();
-      console.log("API Response:", result);
-
-      if (response.ok) {
-        setData({ name: "", username: "", email: "", password: "" });
-        toast.success("User registered successfully! ✅", { position: "bottom-right" });
-        navigate("/login");
-      } else {
-        if (result.msg === "User Already Registered") {
-          toast.error("User is already registered!", { position: "bottom-right" });
-        } else {
-          throw new Error(result.msg || "Registration Failed");
-        }
-      }
+      navigate("/login");
     } catch (error) {
-      console.error("Error registering user:", error);
-      toast.error(error.message || "Something went wrong!", { position: "bottom-right" });
+      console.error("Error registering user:", error.response || error.message);
+
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.msg === "User Already Registered"
+      ) {
+        toast.error("User is already registered!", {
+          position: "bottom-right",
+        });
+      } else {
+        toast.error(
+          error.response?.data?.msg || "Registration failed!",
+          { position: "bottom-right" }
+        );
+      }
     } finally {
       setIsAdding(false);
     }

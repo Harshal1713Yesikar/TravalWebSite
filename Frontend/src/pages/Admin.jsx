@@ -2,6 +2,8 @@ import { UserX2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import useScrollAnimation from "../useScrollAnimation";
 import toast from "react-hot-toast";
+import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 const Admin = () => {
 
 
@@ -14,25 +16,22 @@ const Admin = () => {
     const handleRemove = async (userId) => {
 
         try {
+         const response =   await axiosInstance.delete(`/delete/${userId}`);
+            console.log("User Deleted:", response.data);
 
-            const res = await fetch(`http://localhost:3001/delete/${userId}`, { method: "DELETE" });
-
-            const result = await res.json()
-            console.log("user Deleted", result)
-
-            if (res.ok) {
-                toast.success("User removed successfully", { position: "bottom-right" });
-                fetchData();
-                setShowPopup(false);
-            }
-            else {
-                toast.error(result.msg || "Failed to delete user", { position: "bottom-right" });
-            }
+            toast.success("User removed successfully", { position: "bottom-right" });
+            fetchData();
+            setShowPopup(false);
         } catch (error) {
-
             console.error("Delete error:", error);
-            toast.error("Something went wrong!");
 
+            const errorMessage =
+                error.response?.data?.msg ||
+                error.response?.data?.error ||
+                error.message ||
+                "Something went wrong!";
+
+            toast.error(errorMessage, { position: "bottom-right" });
         }
     };
 
