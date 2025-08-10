@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import HotelDropdown from "./HotelDropdown";
-import {  UserRoundCheck } from "lucide-react";
+import { UserRoundCheck } from "lucide-react";
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
@@ -76,9 +76,9 @@ const Layout = ({ children }) => {
                 to="/Admin"
                 className=" ml-16 w-12 h-12 border border-[#FFE5BB] rounded-full text-black font-medium text-base cursor-pointer hover:bg-[#FFDDAA] flex items-center justify-center gap-2"
               >
-                <UserRoundCheck size={28} strokeWidth={2.25} absoluteStrokeWidth className="ml-1" /> 
-             </Link>
-              
+                <UserRoundCheck size={28} strokeWidth={2.25} absoluteStrokeWidth className="ml-1" />
+              </Link>
+
             </div>
 
 
@@ -135,6 +135,13 @@ const Layout = ({ children }) => {
             >
               Login
             </button>
+
+            <Link
+              to="/Admin"
+              className=" h-12 w-12 border border-[#FFE5BB] rounded-full text-black font-medium text-base cursor-pointer hover:bg-[#FFDDAA] flex justify-center items-center gap-2"
+            >
+              <UserRoundCheck size={28} strokeWidth={2.25} absoluteStrokeWidth className="ml-1" />
+            </Link>
           </div>
         )}
       </nav>

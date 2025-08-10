@@ -4,7 +4,6 @@ import useScrollAnimation from "../useScrollAnimation";
 import { Link, Links } from "react-router-dom";
 import { Mail, Send } from 'lucide-react';
 import toast from "react-hot-toast";
-import axios from "axios";
 const services = [
   {
     id: 1,
@@ -53,30 +52,30 @@ const Home = () => {
     if (!data.email) return;
 
     try {
-      const res = await axios.post(
-        "https://travelbackend-4ufh.onrender.com/subscribe",
-        data,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const res = await fetch("http://localhost:3001/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      },);
 
-      console.log("API Response:", res.data);
+      const result = await res.json();
+      console.log("API Response:", result);
 
-      setIsSubscribed(true);
-      toast.success("🎉 Subscribed successfully!", { position: "bottom-right" });
-      setData({ email: "" });
+      if (res.ok) {
+        setIsSubscribed(true);
+        toast.success("🎉 Subscribed successfully!", { position: "bottom-right" });
+        setData({ email: "" });
 
-      setTimeout(() => {
-        setIsSubscribed(false);
-      }, 3000);
+
+        setTimeout(() => {
+          setIsSubscribed(false);
+        }, 3000);
+      } else {
+        toast.error(result.msg || "Subscription Failed", { position: "bottom-right" });
+      }
     } catch (error) {
-      console.error("Subscription error:", error.response || error.message);
-
-      toast.error(
-        error.response?.data?.msg || "Subscription Failed",
-        { position: "bottom-right" }
-      );
+      console.error("Subscription error:", error);
+      toast.error("Something went wrong!", { position: "bottom-right" });
     }
   };
   useScrollAnimation()

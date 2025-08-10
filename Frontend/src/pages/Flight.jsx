@@ -2,8 +2,6 @@ import React, { useState, useCallback } from 'react';
 import { Plane, MapPin, Calendar, Users, ArrowLeftRight, Phone, MessageCircle, Mail } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Link } from "react-router-dom";
-import axios from 'axios';
-import axiosInstance from '../api/axiosInstance';
 
 const FlightSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +65,7 @@ const FlightSearch = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === 'passengers' ? parseInt(value) || 1 : value,
+      [name]: name === 'passengers' ? parseInt(value) || 1: value,
     }));
 
     if (errors[name]) {
@@ -111,39 +109,47 @@ const FlightSearch = () => {
     }
 
     try {
-      const res = await axiosInstance.post('/flight', {
-        city: formData.departureCity,
-        arrivalCity: formData.arrivalCity,
-        date: formData.departureDate,
-        number: formData.passengers.toString(),
-        tripType: tripType,
-        returnDate: formData.returnDate,
+      const response = await fetch('http://localhost:3001/flight', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          city: formData.departureCity,
+          arrivalCity: formData.arrivalCity,
+          date: formData.departureDate,
+          number: formData.passengers.toString(),
+          tripType: tripType,
+          returnDate: formData.returnDate,
+        }),
       });
 
-      console.log("API Response:", res.data);
+      const result = await response.json();
 
-      toast.success('✈️ Flight search completed successfully!', {
-        position: 'top-right',
-        autoClose: 4000,
-      });
+      if (response.ok) {
+        toast.success('Flight search completed successfully!', {
+          position: 'top-right',
+          duration: 4000,
+        });
 
-      setFormData({
-        departureCity: '',
-        arrivalCity: '',
-        departureDate: '',
-        passengers: 1,
-        tripType: 'one-way',
-        returnDate: '',
-      });
-      setTripType('one-way');
+        setFormData({
+          departureCity: '',
+          arrivalCity: '',
+          departureDate: '',
+          passengers: 1,
+          tripType: 'one-way',
+          returnDate: '',
+        });
+        setTripType('one-way');
+      } else {
+        throw new Error(result.message || 'Flight search failed');
+      }
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || error.message || 'Something went wrong!';
-      console.error("Flight search error:", errorMessage);
-
+        error instanceof Error ? error.message : 'Something went wrong!';
       toast.error(errorMessage, {
         position: 'top-right',
-        autoClose: 4000,
+        duration: 4000,
       });
     } finally {
       setIsLoading(false);
@@ -151,7 +157,7 @@ const FlightSearch = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50">
+  <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
           <div className="order-2 lg:order-1 flex justify-center">
@@ -175,7 +181,7 @@ const FlightSearch = () => {
               </span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              Discover amazing destinations, book flights at the best prices, and create unforgettable memories.
+              Discover amazing destinations, book flights at the best prices, and create unforgettable memories. 
               Your perfect trip is just a search away.
             </p>
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
@@ -209,20 +215,22 @@ const FlightSearch = () => {
                 <button
                   type="button"
                   onClick={() => handleTripTypeChange('one-way')}
-                  className={`px-6 py-2 rounded-md font-medium transition-all duration-200 ${tripType === 'one-way'
+                  className={`px-6 py-2 rounded-md font-medium transition-all duration-200 ${
+                    tripType === 'one-way'
                       ? 'bg-white text-orange-600 shadow-sm'
                       : 'text-gray-600 hover:text-gray-800'
-                    }`}
+                  }`}
                 >
                   One Way
                 </button>
                 <button
                   type="button"
                   onClick={() => handleTripTypeChange('round-trip')}
-                  className={`px-6 py-2 rounded-md font-medium transition-all duration-200 ${tripType === 'round-trip'
+                  className={`px-6 py-2 rounded-md font-medium transition-all duration-200 ${
+                    tripType === 'round-trip'
                       ? 'bg-white text-orange-600 shadow-sm'
                       : 'text-gray-600 hover:text-gray-800'
-                    }`}
+                  }`}
                 >
                   Round Trip
                 </button>
@@ -242,8 +250,9 @@ const FlightSearch = () => {
                       value={formData.departureCity}
                       onChange={handleInputChange}
                       placeholder="Enter departure city"
-                      className={`w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 ${errors.departureCity ? 'border-red-500 ring-1 ring-red-500' : ''
-                        }`}
+                      className={`w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 ${
+                        errors.departureCity ? 'border-red-500 ring-1 ring-red-500' : ''
+                      }`}
                       required
                     />
                   </div>
@@ -251,7 +260,7 @@ const FlightSearch = () => {
                     <p className="text-sm text-red-600 mt-1">{errors.departureCity}</p>
                   )}
                 </div>
-
+                
                 <button
                   type="button"
                   onClick={swapCities}
@@ -275,8 +284,9 @@ const FlightSearch = () => {
                       value={formData.arrivalCity}
                       onChange={handleInputChange}
                       placeholder="Enter destination city"
-                      className={`w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 ${errors.arrivalCity ? 'border-red-500 ring-1 ring-red-500' : ''
-                        }`}
+                      className={`w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 ${
+                        errors.arrivalCity ? 'border-red-500 ring-1 ring-red-500' : ''
+                      }`}
                       required
                     />
                   </div>
@@ -299,8 +309,9 @@ const FlightSearch = () => {
                       value={formData.departureDate}
                       onChange={handleInputChange}
                       min={getTomorrowDate()}
-                      className={`w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 ${errors.departureDate ? 'border-red-500 ring-1 ring-red-500' : ''
-                        }`}
+                      className={`w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 ${
+                        errors.departureDate ? 'border-red-500 ring-1 ring-red-500' : ''
+                      }`}
                       required
                     />
                   </div>
@@ -308,7 +319,7 @@ const FlightSearch = () => {
                     <p className="text-sm text-red-600 mt-1">{errors.departureDate}</p>
                   )}
                 </div>
-
+                
                 {tripType === 'round-trip' && (
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">Return Date</label>
@@ -322,8 +333,9 @@ const FlightSearch = () => {
                         value={formData.returnDate}
                         onChange={handleInputChange}
                         min={formData.departureDate || getTomorrowDate()}
-                        className={`w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 ${errors.returnDate ? 'border-red-500 ring-1 ring-red-500' : ''
-                          }`}
+                        className={`w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 ${
+                          errors.returnDate ? 'border-red-500 ring-1 ring-red-500' : ''
+                        }`}
                         required
                       />
                     </div>
@@ -348,8 +360,9 @@ const FlightSearch = () => {
                       max="9"
                       value={formData.passengers.toString()}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 ${errors.passengers ? 'border-red-500 ring-1 ring-red-500' : ''
-                        }`}
+                      className={`w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 ${
+                        errors.passengers ? 'border-red-500 ring-1 ring-red-500' : ''
+                      }`}
                       required
                     />
                   </div>
@@ -381,7 +394,7 @@ const FlightSearch = () => {
             <h2 className="text-3xl font-bold text-gray-800 mb-4">Why Choose Jaddoo?</h2>
             <p className="text-gray-600 text-lg">Everything you need for the perfect trip</p>
           </div>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -390,7 +403,7 @@ const FlightSearch = () => {
               <h3 className="text-xl font-bold text-gray-800 mb-2">Easy Search</h3>
               <p className="text-gray-600">Compare flights from hundreds of airlines in seconds</p>
             </div>
-
+            
             <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">💳</span>
@@ -398,7 +411,7 @@ const FlightSearch = () => {
               <h3 className="text-xl font-bold text-gray-800 mb-2">Best Prices</h3>
               <p className="text-gray-600">Get the lowest fares with our price guarantee</p>
             </div>
-
+            
             <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">🛡️</span>
@@ -410,7 +423,7 @@ const FlightSearch = () => {
         </div>
       </div>
 
-      <div className="bg-gray-100 py-16  px-6 mt-16 sm:px-12 lg:px-16">
+     <div className="bg-gray-100 py-16  px-6 mt-16 sm:px-12 lg:px-16">
         <div className="flex flex-col md:flex-row justify-center gap-12 md:gap-24 mt-12 animate-on-scroll">
           <div className="text-center md:text-left">
             <p className="font-poppins font-semibold text-4xl">Jaddoo.</p>

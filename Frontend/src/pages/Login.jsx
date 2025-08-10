@@ -2,8 +2,6 @@ import React, { useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import useScrollAnimation from "../useScrollAnimation";
-import axios from "axios";
-import axiosInstance from "../api/axiosInstance";
 
 const debounce = (func, wait) => {
   let timeout;
@@ -31,23 +29,28 @@ const Login = () => {
     console.log("Form submitted with:", data);
 
     try {
-         const res = await axiosInstance.post('/login', data);
-    console.log(res.data);
+      const res = await fetch("http://localhost:3001/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        
 
-      console.log("API Response:", res.data);
+      });
 
-      setData({ email: "", password: "" });
-      toast.success("User Logged In Successfully", { position: "bottom-right" });
-      localStorage.setItem("token", res.data.token);
-      navigate("/");
-    } catch (error) {
-      console.error("Login Error:", error.response || error.message);
+      const result = await res.json();
+      console.log("API Response:", result);
 
-      if (error.response && error.response.data?.msg) {
-        toast.error(error.response.data.msg, { position: "bottom-right" });
+      if (res.ok) {
+        setData({ email: "", password: "" });
+        toast.success("User Logged In Successfully", { position: "bottom-right" });
+        localStorage.setItem("token", result.token);
+        navigate("/");
       } else {
-        toast.error("Something went wrong!", { position: "bottom-right" });
+         toast.error(result.msg || "Login Failed", { position: "bottom-right" });
       }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      toast.error("Something went wrong!", { position: "bottom-right" });
     } finally {
       setIsAdding(false);
     }
@@ -55,7 +58,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleLogin();
+    handleLogin(); 
   };
 
   return (

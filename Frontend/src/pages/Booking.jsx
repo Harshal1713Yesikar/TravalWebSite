@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useScrollAnimation from "../useScrollAnimation";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 const Booking = () => {
   useScrollAnimation()
@@ -19,32 +18,29 @@ const Booking = () => {
 
   const handleBooking = async (e) => {
     e.preventDefault();
-  try {
-  const response = await axios.post(
-    'https://travelbackend-4ufh.onrender.com/contactUs',
-    data
-  );
+    try {
+      const res = await fetch("http://localhost:3001/book", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      })
 
-  console.log("API Response:", response.data);
+      const result = await res.json()
+      console.log(result, "Api Respones")
+      if (res.ok) {
+        setData({ name: "", date: "", number: "" });
 
-  setData({ name: "", email: "", message: "" });
-
-  toast.success("📨 Message Sent Successfully", {
-    position: 'bottom-right',
-  });
-} catch (error) {
-  console.error("API Call Failed:", error);
-
-  const errorMessage =
-    error.response?.data?.msg ||
-    error.response?.data?.error ||
-    error.message ||
-    "Something went wrong!";
-
-  toast.error(errorMessage, {
-    position: 'bottom-right',
-  });
-}
+        toast.success("Message Sent Successfully", {
+          position: 'bottom-right'
+        });
+      } else {
+        throw new Error(result.message || "Something went wrong!");
+      }
+    } catch (error) {
+      console.error("API Call Failed:", error);
+    }
   }
 
   return (
